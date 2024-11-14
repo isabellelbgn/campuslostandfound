@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "345519256458-bp49er4kqvj32mbf84iclml7ss7p8j6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.campuslostandfound.app",
+            "certificate_hash": "727faef8313c7d096fa40299aaffa924c244c96e"
+          }
+        },
+        {
           "client_id": "345519256458-hrcjsgin16ehtnamqb503l1t96lptpo2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
