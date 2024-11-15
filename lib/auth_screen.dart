@@ -70,13 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ],
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Signed in as: ${_user?.displayName ?? 'Unknown'}"),
-                  Text("Email: ${_user?.email ?? 'No Email'}"),
-                ],
-              ),
+            : const SizedBox.shrink(),
       ),
     );
   }

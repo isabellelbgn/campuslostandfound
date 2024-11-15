@@ -16,10 +16,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Campus Lost and Found',
-      home: AuthScreen(),
+      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+      home: const AuthScreen(),
     );
   }
 }

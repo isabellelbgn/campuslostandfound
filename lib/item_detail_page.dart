@@ -71,7 +71,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                     'Time: ${itemData?['time'] != null ? DateFormat('MM/dd/yyyy').format((itemData?['time'] as Timestamp).toDate()) : 'No Date'}',
                   ),
                   Text(
-                      'Is Claimed: ${itemData?['isClaimed'] == true ? 'Yes' : 'No'}'),
+                      'Is Claimed: ${itemData?['isClaimed'] == true ? 'Claimed' : 'Not Claimed'}'),
                   Text('Status: ${itemData?['status'] ?? 'No Status'}'),
                 ],
               ),
