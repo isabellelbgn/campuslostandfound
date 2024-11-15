@@ -7,7 +7,7 @@ class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -38,11 +38,12 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       print("Signed in successfully: ${userCredential.user?.email}");
       _showMessage("Signed in as ${userCredential.user?.displayName}");
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-      );
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
     } catch (e) {
       print("Google sign-in failed: $e");
       _showMessage("Sign-in failed. Please try again.");

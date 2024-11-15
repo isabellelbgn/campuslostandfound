@@ -8,7 +8,7 @@ class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
   @override
-  _DashboardState createState() => _DashboardState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -39,14 +39,14 @@ class _DashboardState extends State<Dashboard> {
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () async {
-              // Sign out from Firebase
               await FirebaseAuth.instance.signOut();
 
-              // Navigate back to the AuthScreen
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const AuthScreen()),
-              );
+              if (context.mounted) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AuthScreen()),
+                );
+              }
             },
           )
         ],
