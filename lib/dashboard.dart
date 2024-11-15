@@ -34,7 +34,11 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard"),
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Dashboard",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
@@ -94,6 +98,17 @@ class _DashboardState extends State<Dashboard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        item['imageUrl'] != null
+                            ? Image.network(
+                                item['imageUrl'] is List
+                                    ? (item['imageUrl'] as List<dynamic>).first
+                                    : item['imageUrl'],
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                            : const Text('No Image Available'),
+                        const SizedBox(height: 8),
                         Text(
                           item['name'] ?? 'No Name',
                           style: const TextStyle(
@@ -108,7 +123,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '${item['location'] ?? 'No Location'}',
+                          item['location'] ?? 'No Location',
                           style:
                               const TextStyle(fontSize: 14, color: Colors.grey),
                         ),

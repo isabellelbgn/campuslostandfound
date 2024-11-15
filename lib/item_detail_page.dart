@@ -37,7 +37,11 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(itemData?['name'] ?? 'Item Details'),
+        backgroundColor: Colors.white,
+        title: Text(
+          itemData?['name'] ?? 'Item Details',
+          style: const TextStyle(color: Colors.black),
+        ),
       ),
       body: itemData == null
           ? const Center(child: CircularProgressIndicator())
@@ -71,7 +75,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                     'Time: ${itemData?['time'] != null ? DateFormat('MM/dd/yyyy').format((itemData?['time'] as Timestamp).toDate()) : 'No Date'}',
                   ),
                   Text(
-                      'Is Claimed: ${itemData?['isClaimed'] == true ? 'Yes' : 'No'}'),
+                      'Is Claimed: ${itemData?['isClaimed'] == true ? 'Claimed' : 'Not Claimed'}'),
                   Text('Status: ${itemData?['status'] ?? 'No Status'}'),
                 ],
               ),
