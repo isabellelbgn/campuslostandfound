@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dashboard.dart'; // Import the Dashboard screen
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -21,6 +22,12 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       print("Signed in successfully: ${userCredential.user?.email}");
       _showMessage("Signed in as ${userCredential.user?.displayName}");
+
+      // Navigate to the Dashboard screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
     } catch (e) {
       print("Google sign-in failed: $e");
       _showMessage("Sign-in failed. Please try again.");
