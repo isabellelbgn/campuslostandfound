@@ -10,15 +10,5 @@ Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/
 Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/tools/node_modules/npm/bin/npm-cli
 Checking for npm/bin/npm-cli install at /snapshot/firepit/node_modules/npm/bin/npm-cli
 Found npm/bin/npm-cli install.
-Runtime binaries created.
-/usr/local/bin/firebase
-/usr/local/bin/firebase,/snapshot/firepit/firepit.js,apps:sdkconfig,android,1:345519256458:android:7e2f77c5e52578cb058e73,--json
-Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/tools/lib/node_modules/npm/bin/npm-cli
-Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/tools/node_modules/npm/bin/npm-cli
-Checking for npm/bin/npm-cli install at /snapshot/firepit/node_modules/npm/bin/npm-cli
-Found npm/bin/npm-cli install.
-Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/tools/lib/node_modules/npm/bin/npm-cli
-Checking for npm/bin/npm-cli install at /Users/isabellelabuguen/.cache/firebase/tools/node_modules/npm/bin/npm-cli
-Checking for npm/bin/npm-cli install at /snapshot/firepit/node_modules/npm/bin/npm-cli
-Found npm/bin/npm-cli install.
-ShellJSInternalError: ENOENT: no such file or directory, stat '/Users/isabellelabuguen/.cache/firebase/runtime/npm.bat'
+ShellJSInternalError: ENOENT: no such file or directory, unlink '/Users/isabellelabuguen/.cache/firebase/runtime/shell'
+ShellJSInternalError: ENOENT: no such file or directory, stat '/Users/isabellelabuguen/.cache/firebase/runtime/npmrc'
