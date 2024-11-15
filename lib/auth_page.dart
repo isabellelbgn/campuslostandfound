@@ -51,32 +51,39 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    // Ensures the Snackbar is shown after the widget build phase
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _user == null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _signInWithGoogle,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                    ),
-                    child: const Text(
-                      "Sign in with Google",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ],
-              )
-            : const SizedBox.shrink(),
+      body: Builder(
+        builder: (context) {
+          return Center(
+            child: _user == null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _signInWithGoogle,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          "Sign in with Google",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+          );
+        },
       ),
     );
   }
