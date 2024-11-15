@@ -31,7 +31,6 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Ensures that the container expands to fill the screen
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
