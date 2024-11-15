@@ -1,3 +1,5 @@
+import 'package:campuslostandfound/auth_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'item_detail_page.dart';
@@ -33,6 +35,21 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dashboard"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () async {
+              // Sign out from Firebase
+              await FirebaseAuth.instance.signOut();
+
+              // Navigate back to the AuthScreen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const AuthScreen()),
+              );
+            },
+          )
+        ],
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchItems(),
