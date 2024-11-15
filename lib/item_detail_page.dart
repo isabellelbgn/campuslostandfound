@@ -37,7 +37,11 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(itemData?['name'] ?? 'Item Details'),
+        backgroundColor: Colors.white,
+        title: Text(
+          itemData?['name'] ?? 'Item Details',
+          style: const TextStyle(color: Colors.black),
+        ),
       ),
       body: itemData == null
           ? const Center(child: CircularProgressIndicator())

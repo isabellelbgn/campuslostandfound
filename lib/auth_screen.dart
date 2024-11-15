@@ -66,7 +66,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: _signInWithGoogle,
-                    child: const Text("Sign in with Google"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      "Sign in with Google",
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ],
               )
