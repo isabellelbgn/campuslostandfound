@@ -13,6 +13,22 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   User? _user;
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _user = FirebaseAuth.instance.currentUser;
+
+      if (_user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
+    });
+  }
+
   // Sign In
   Future<void> _signInWithGoogle() async {
     try {
@@ -23,7 +39,6 @@ class _AuthScreenState extends State<AuthScreen> {
       print("Signed in successfully: ${userCredential.user?.email}");
       _showMessage("Signed in as ${userCredential.user?.displayName}");
 
-      // Navigate to the Dashboard screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Dashboard()),
@@ -32,15 +47,6 @@ class _AuthScreenState extends State<AuthScreen> {
       print("Google sign-in failed: $e");
       _showMessage("Sign-in failed. Please try again.");
     }
-  }
-
-  // Sign out
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    setState(() {
-      _user = null;
-    });
-    _showMessage("Signed out successfully.");
   }
 
   void _showMessage(String message) {
@@ -52,9 +58,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Google Sign-In Test"),
-      ),
       body: Center(
         child: _user == null
             ? Column(
@@ -71,11 +74,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 children: [
                   Text("Signed in as: ${_user?.displayName ?? 'Unknown'}"),
                   Text("Email: ${_user?.email ?? 'No Email'}"),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _signOut,
-                    child: const Text("Sign Out"),
-                  ),
                 ],
               ),
       ),
