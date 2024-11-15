@@ -13,6 +13,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
 
   Future<List<Map<String, dynamic>>> fetchItems() async {
     List<Map<String, dynamic>> itemsList = [];
@@ -30,6 +32,22 @@ class _DashboardState extends State<Dashboard> {
     return itemsList;
   }
 
+  // Filter items
+  List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
+    if (_searchQuery.isEmpty) {
+      return items;
+    }
+    return items
+        .where((item) =>
+            (item['name'] ?? '')
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase()) ||
+            (item['description'] ?? '')
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase()))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +58,7 @@ class _DashboardState extends State<Dashboard> {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
+          // Sign Out Button
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () async {
@@ -52,8 +71,32 @@ class _DashboardState extends State<Dashboard> {
                 );
               }
             },
-          )
+          ),
         ],
+
+        // Search Bar
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: "Search items...",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+              ),
+              onChanged: (query) {
+                setState(() {
+                  _searchQuery = query;
+                });
+              },
+            ),
+          ),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchItems(),
@@ -66,10 +109,12 @@ class _DashboardState extends State<Dashboard> {
             return const Center(child: Text("No items found."));
           } else {
             List<Map<String, dynamic>> items = snapshot.data!;
+            List<Map<String, dynamic>> filteredItems = _filterItems(items);
+
             return ListView.builder(
-              itemCount: items.length,
+              itemCount: filteredItems.length,
               itemBuilder: (context, index) {
-                var item = items[index];
+                var item = filteredItems[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -95,6 +140,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
+                    // Item Container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
