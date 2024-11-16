@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'dashboard_screen.dart'; // Import the Dashboard screen
+import 'package:campuslostandfound/screens/dashboard_screen.dart';
+import 'package:campuslostandfound/services/google_auth_service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -29,10 +29,33 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  // Sign In
+  // Sign In as Guest
+  Future<void> _signInAsGuest() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInAnonymously();
+      setState(() {
+        _user = userCredential.user;
+      });
+      print("Signed in as Guest successfully");
+      _showMessage("Signed in as Guest");
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
+    } catch (e) {
+      print("Guest sign-in failed: $e");
+      _showMessage("Sign-in failed. Please try again.");
+    }
+  }
+
+  // Sign In with Google
   Future<void> _signInWithGoogle() async {
     try {
-      UserCredential userCredential = await signInWithGoogle();
+      UserCredential userCredential =
+          await GoogleAuthService.signInWithGoogle();
       setState(() {
         _user = userCredential.user;
       });
@@ -51,7 +74,6 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _showMessage(String message) {
-    // Ensures the Snackbar is shown after the widget build phase
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message)),
@@ -80,7 +102,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _signInAsGuest,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: const Color(0xff004e92),
@@ -131,18 +153,4 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
     );
   }
-}
-
-Future<UserCredential> signInWithGoogle() async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
-
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
