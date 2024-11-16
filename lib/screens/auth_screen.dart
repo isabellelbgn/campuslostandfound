@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'dashboard.dart'; // Import the Dashboard screen
+import 'dashboard_screen.dart'; // Import the Dashboard screen
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -100,7 +100,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: _signInWithGoogle,
                           style: ElevatedButton.styleFrom(

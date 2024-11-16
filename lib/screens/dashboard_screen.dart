@@ -1,12 +1,12 @@
-import 'package:campuslostandfound/auth_page.dart';
-import 'package:campuslostandfound/see_all_items_page.dart';
+import 'package:campuslostandfound/screens/auth_screen.dart';
+import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './components/search_bar.dart';
-import './components/category_filter.dart';
-import './components/item_container.dart';
-import 'item_detail_page.dart';
+import '../components/search_bar.dart';
+import '../components/category_filter.dart';
+import '../components/item_container.dart';
+import 'item_detail_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});

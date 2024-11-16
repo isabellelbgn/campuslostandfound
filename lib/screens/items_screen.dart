@@ -1,8 +1,8 @@
-import 'package:campuslostandfound/item_detail_page.dart';
+import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './components/item_container.dart';
-import './components/search_bar.dart';
+import '../components/item_container.dart';
+import '../components/search_bar.dart';
 
 class SeeAllItemsPage extends StatefulWidget {
   const SeeAllItemsPage({super.key});
