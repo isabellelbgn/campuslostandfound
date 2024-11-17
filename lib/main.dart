@@ -35,11 +35,7 @@ class MyHomePage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff000428), Color(0xff004e92)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Colors.white10,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,35 +45,33 @@ class MyHomePage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 48.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Color(0xFF002EB0),
               ),
             ),
-            const SizedBox(height: 20),
             const Text(
               'by: Ateneo de Davao University',
               style: TextStyle(
                 fontSize: 16.0,
-                color: Colors.white,
+                color: Colors.grey,
               ),
             ),
             const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
-                print("Button was clicked.");
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const AuthScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: const Color(0xff004e92),
+                backgroundColor: Color(0xFF002EB0),
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 30,
                   vertical: 15,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
               child: const Text(

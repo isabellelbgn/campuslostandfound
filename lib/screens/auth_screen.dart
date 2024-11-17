@@ -85,14 +85,11 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff000428), Color(0xff004e92)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Colors.white,
         ),
         child: Builder(
           builder: (context) {
@@ -101,46 +98,56 @@ class _AuthScreenState extends State<AuthScreen> {
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: _signInAsGuest,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: const Color(0xff004e92),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 30,
-                              vertical: 15,
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _signInAsGuest,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF002EB0),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 15,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: const Text(
-                            "Sign in as Guest",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            child: const Text(
+                              "Sign in as Guest",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: _signInWithGoogle,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: const Color(0xff004e92),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 30,
-                              vertical: 15,
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _signInWithGoogle,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF002EB0),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 15,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                            icon: Image.network(
+                              'https://cdn-icons-png.freepik.com/256/16509/16509564.png?semt=ais_hybrid',
+                              height: 25,
+                              width: 25,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                          child: const Text(
-                            "Sign in with Google",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            label: const Text(
+                              "Sign in with Google",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ),
