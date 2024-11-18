@@ -13,7 +13,7 @@ class CategoryFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+      scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class CategoryFilter extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: selectedCategory == category
-              ? Colors.blue[900]
+              ? const Color(0xFF002EB0)
               : Colors.grey[300],
           foregroundColor:
               selectedCategory == category ? Colors.white : Colors.black,
