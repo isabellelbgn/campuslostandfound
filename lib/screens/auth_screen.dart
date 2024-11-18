@@ -1,74 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:campuslostandfound/screens/dashboard_screen.dart';
-import 'package:campuslostandfound/services/google_auth_service.dart';
+import 'dart:async';
 import 'package:campuslostandfound/components/auth_app_bar.dart';
 import 'package:campuslostandfound/components/auth_google_button.dart';
 import 'package:campuslostandfound/components/auth_guest_button.dart';
+import 'package:campuslostandfound/screens/dashboard_screen.dart';
+import 'package:campuslostandfound/services/google_auth_service.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
-
-class _AuthScreenState extends State<AuthScreen> {
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _user = FirebaseAuth.instance.currentUser;
-      if (_user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-        );
-      }
-    });
-  }
-
-  Future<void> _signInAsGuest() async {
+  Future<void> _signInAsGuest(BuildContext context) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInAnonymously();
-      setState(() {
-        _user = userCredential.user;
-      });
-      _showMessage("Signed in as Guest");
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-        );
-      }
-    } catch (e) {
-      _showMessage("Sign-in failed. Please try again.");
+      _showMessage(context, "Signed in as Guest");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
+    } on FirebaseAuthException {
+      _showMessage(context, "Sign-in failed. Please try again.");
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      UserCredential userCredential =
-          await GoogleAuthService.signInWithGoogle();
-      setState(() {
-        _user = userCredential.user;
-      });
-      _showMessage("Signed in as ${userCredential.user?.displayName}");
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-        );
-      }
-    } catch (e) {
-      _showMessage("Sign-in failed. Please try again.");
+      final userCredential = await GoogleAuthService.signInWithGoogle();
+      _showMessage(context, "Signed in as ${userCredential.user?.displayName}");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
+    } on FirebaseAuthException {
+      _showMessage(context, "Sign-in failed. Please try again.");
     }
   }
 
-  void _showMessage(String message) {
+  void _showMessage(BuildContext context, String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message)),
@@ -103,11 +70,11 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 30),
 
               // Google sign-in button
-              SignInButton(onPressed: _signInWithGoogle),
+              SignInButton(onPressed: () => _signInWithGoogle(context)),
               const SizedBox(height: 20),
 
               // Guest access button
-              GuestSignInButton(onPressed: _signInAsGuest),
+              GuestSignInButton(onPressed: () => _signInAsGuest(context)),
             ],
           ),
         ),
