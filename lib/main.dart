@@ -46,7 +46,7 @@ class AuthWrapper extends StatelessWidget {
     if (authState.user != null) {
       return const Dashboard();
     } else {
-      return const AuthScreen();
+      return const MyHomePage();
     }
   }
 }
