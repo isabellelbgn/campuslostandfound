@@ -78,6 +78,16 @@ class _DashboardState extends State<Dashboard> {
     return filteredItems;
   }
 
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const AuthScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,23 +95,49 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Colors.white,
         title: const Text(
           "Dashboard",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           overflow: TextOverflow.visible,
         ),
         actions: [
-          // Sign Out Button
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
+          // Sign Out
+          TextButton(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+              bool? confirmSignOut = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Confirm Sign Out"),
+                    content: const Text("Are you sure you want to sign out?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: const Text("Cancel"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: const Text("Sign Out"),
+                      ),
+                    ],
+                  );
+                },
+              );
 
-              if (context.mounted) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AuthScreen()),
-                );
+              if (confirmSignOut == true) {
+                await _signOut();
               }
             },
+            child: const Text(
+              "Sign Out",
+              style: TextStyle(
+                color: Color(0xFF002EB0),
+                fontSize: 14,
+              ),
+            ),
           ),
         ],
       ),
@@ -162,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                                   );
                                 },
                                 style: TextButton.styleFrom(
-                                  foregroundColor: Colors.blue[900],
+                                  foregroundColor: const Color(0xFF002EB0),
                                 ),
                                 child: const Text("See All Items"),
                               ),
