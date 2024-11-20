@@ -54,7 +54,6 @@ class AuthState with ChangeNotifier {
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final userCredential = await GoogleAuthService.signInWithGoogle();
-
       _showMessage(context, "Signed in as ${userCredential.user?.displayName}");
       Navigator.pushReplacement(
         context,
@@ -62,6 +61,7 @@ class AuthState with ChangeNotifier {
       );
     } on FirebaseAuthException {
       _showMessage(context, "Sign-in failed. Please try again.");
+
     }
   }
 
