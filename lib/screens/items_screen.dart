@@ -1,6 +1,7 @@
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../components/item_container.dart';
 import '../components/search_bar.dart';
 
@@ -76,7 +77,12 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                 future: fetchAllItems(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: SpinKitChasingDots(
+                        color: Color(0xFF002EB0),
+                        size: 50.0,
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(child: Text("Error: ${snapshot.error}"));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
