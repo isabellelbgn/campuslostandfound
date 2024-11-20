@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_options.dart';
 import 'package:blobs/blobs.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +21,11 @@ Future<void> main() async {
 
 class AuthState with ChangeNotifier {
   User? _user;
+  bool _isLoading = false;
 
   User? get user => _user;
+  bool get isLoading => _isLoading;
+
   StreamSubscription<User?>? _authStateListener;
 
   AuthState() {
@@ -32,7 +36,13 @@ class AuthState with ChangeNotifier {
     });
   }
 
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
   Future<void> signInAsGuest(BuildContext context) async {
+    setLoading(true);
     try {
       final userCredential = await FirebaseAuth.instance.signInAnonymously();
       final user = userCredential.user;
@@ -48,10 +58,13 @@ class AuthState with ChangeNotifier {
       }
     } on FirebaseAuthException {
       _showMessage(context, "Sign-in failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
+    setLoading(true);
     try {
       final userCredential = await GoogleAuthService.signInWithGoogle();
       _showMessage(context, "Signed in as ${userCredential.user?.displayName}");
@@ -61,7 +74,8 @@ class AuthState with ChangeNotifier {
       );
     } on FirebaseAuthException {
       _showMessage(context, "Sign-in failed. Please try again.");
-
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -115,141 +129,148 @@ class AuthWrapper extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final authState = Provider.of<AuthState>(context, listen: false);
+    final authState = Provider.of<AuthState>(context);
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white,
-        child: Stack(
-          children: [
-            Positioned(
-              top: -120,
-              left: -100,
-              child: Blob.fromID(
-                id: ['18-6-103'],
-                size: 400,
-                styles: BlobStyles(
-                  color: const Color(0xFFE0E6F6),
-                ),
+      body: authState.isLoading
+          ? const Center(
+              child: SpinKitChasingDots(
+                color: Color(0xFF002EB0),
+                size: 50.0,
               ),
-            ),
-            Positioned(
-              top: -150,
-              left: -100,
-              child: Blob.fromID(
-                id: ['6-6-54'],
-                size: 400,
-                styles: BlobStyles(
-                  color: const Color(0xFF002EB0),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 200,
-              right: -280,
-              bottom: 200,
-              child: Blob.fromID(
-                id: ['6-2-33005'],
-                size: 400,
-                styles: BlobStyles(
-                  color: const Color(0xFF002EB0),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -150,
-              right: -100,
-              child: Blob.fromID(
-                id: ['4-5-4980'],
-                size: 400,
-                styles: BlobStyles(
-                  color: const Color(0xFFE0E6F6),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'lib/assets/icons/logo.png',
-                      height: 100,
-                      width: 200,
-                      fit: BoxFit.contain,
-                    ),
-                    const Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Your Go-To App for Lost and Found at ',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Color(0xFF002EB0),
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Ateneo',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
+            )
+          : Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -120,
+                    left: -100,
+                    child: Blob.fromID(
+                      id: ['18-6-103'],
+                      size: 400,
+                      styles: BlobStyles(
+                        color: const Color(0xFFE0E6F6),
                       ),
                     ),
-                    const SizedBox(height: 100),
-                    SignInButton(
-                      onPressed: () => authState.signInWithGoogle(context),
+                  ),
+                  Positioned(
+                    top: -150,
+                    left: -100,
+                    child: Blob.fromID(
+                      id: ['6-6-54'],
+                      size: 400,
+                      styles: BlobStyles(
+                        color: const Color(0xFF002EB0),
+                      ),
                     ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 300,
-                      child: const Row(
+                  ),
+                  Positioned(
+                    top: 200,
+                    right: -280,
+                    bottom: 200,
+                    child: Blob.fromID(
+                      id: ['6-2-33005'],
+                      size: 400,
+                      styles: BlobStyles(
+                        color: const Color(0xFF002EB0),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -150,
+                    right: -100,
+                    child: Blob.fromID(
+                      id: ['4-5-4980'],
+                      size: 400,
+                      styles: BlobStyles(
+                        color: const Color(0xFFE0E6F6),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey,
-                              thickness: 1,
-                            ),
+                          Image.asset(
+                            'lib/assets/icons/logo.png',
+                            height: 100,
+                            width: 200,
+                            fit: BoxFit.contain,
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'or',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
+                          const Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Your Go-To App for Lost and Found at ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Color(0xFF002EB0),
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Ateneo',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey,
-                              thickness: 1,
+                          const SizedBox(height: 100),
+                          SignInButton(
+                            onPressed: () =>
+                                authState.signInWithGoogle(context),
+                          ),
+                          SizedBox(height: 15),
+                          SizedBox(
+                            width: 300,
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.grey,
+                                    thickness: 1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    'or',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.grey,
+                                    thickness: 1,
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+                          SizedBox(height: 15),
+                          GuestSignInButton(
+                            onPressed: () => authState.signInAsGuest(context),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 15),
-                    GuestSignInButton(
-                      onPressed: () => authState.signInAsGuest(context),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
