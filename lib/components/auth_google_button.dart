@@ -19,7 +19,7 @@ class SignInButton extends StatelessWidget {
             vertical: 15,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
         icon: Image.network(

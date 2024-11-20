@@ -17,10 +17,10 @@ class GuestSignInButton extends StatelessWidget {
           foregroundColor: const Color(0xFF002EB0),
           padding: const EdgeInsets.symmetric(
             horizontal: 30,
-            vertical: 5,
+            vertical: 10,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
         icon: const FaIcon(
