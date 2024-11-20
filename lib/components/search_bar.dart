@@ -18,10 +18,14 @@ class SearchItemBar extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           hintText: "Search items...",
-          prefixIcon: const Icon(Icons.search),
+          hintStyle: TextStyle(color: Color(0xFFA8A8A8)),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: Color(0xFFA8A8A8),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Colors.grey),
+            borderSide: const BorderSide(color: Color(0xFFA8A8A8)),
           ),
         ),
         onChanged: onChanged,
