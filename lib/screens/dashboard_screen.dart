@@ -1,4 +1,4 @@
-import 'package:campuslostandfound/screens/auth_screen.dart';
+import 'package:campuslostandfound/main.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class _DashboardState extends State<Dashboard> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
+        MaterialPageRoute(builder: (context) => const MyHomePage()),
       );
     }
   }
