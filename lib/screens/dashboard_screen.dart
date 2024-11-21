@@ -108,7 +108,7 @@ class _DashboardState extends State<Dashboard> {
               top: -140,
               left: -60,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFFE0E6F6),
@@ -119,7 +119,7 @@ class _DashboardState extends State<Dashboard> {
               bottom: -160,
               left: screenWidth * 0.6,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFF002EB0),
@@ -211,6 +211,7 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
+            const SizedBox(height: 10),
             SearchItemBar(
               controller: _searchController,
               onSearch: () {

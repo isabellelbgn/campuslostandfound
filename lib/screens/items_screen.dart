@@ -56,7 +56,6 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     double blobSize = screenHeight * 0.3;
     return Scaffold(
       appBar: PreferredSize(
@@ -67,7 +66,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
               top: -140,
               left: -60,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFFE0E6F6),
@@ -78,7 +77,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
               bottom: -160,
               left: screenWidth * 0.6,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFF002EB0),
@@ -99,7 +98,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
               child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
-                  color: Colors.grey,
+                  color: Color(0xFF525660),
                   size: 25,
                 ),
                 onPressed: () {
@@ -114,6 +113,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
+            const SizedBox(height: 10),
             SearchItemBar(
               controller: _searchController,
               onSearch: () {
@@ -150,7 +150,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                         runSpacing: 10,
                         children: List.generate(filteredItems.length, (index) {
                           var item = filteredItems[index];
-                          return Container(
+                          return SizedBox(
                             width: (MediaQuery.of(context).size.width - 50) / 2,
                             child: ItemContainer(
                               item: item,
