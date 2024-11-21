@@ -62,7 +62,7 @@ class CategoryFilter extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: SizedBox(
         width: 100,
-        height: 150,
+        height: 165,
         child: ElevatedButton(
           onPressed: () {
             onCategorySelected(category);
