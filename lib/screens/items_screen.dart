@@ -66,10 +66,11 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
           children: [
             SearchItemBar(
               controller: _searchController,
-              onChanged: (query) {
+              onSearch: () {
                 setState(() {
-                  _searchQuery = query;
+                  _searchQuery = _searchController.text.trim();
                 });
+                // Perform the search logic here
               },
             ),
             const SizedBox(height: 10),
