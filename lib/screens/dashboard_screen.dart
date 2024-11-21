@@ -1,3 +1,4 @@
+import 'package:blobs/blobs.dart' as blobs;
 import 'package:campuslostandfound/main.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,8 @@ import '../components/search_bar.dart';
 import '../components/category_filter.dart';
 import '../components/item_container.dart';
 import 'item_detail_screen.dart';
+
+typedef FirestoreBlob = Blob;
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -91,13 +94,40 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    double blobSize = screenHeight * 0.3;
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(70),
         child: Stack(
-          alignment: Alignment.center,
           children: [
-            Center(
+            Positioned(
+              top: -140,
+              left: -60,
+              child: blobs.Blob.fromID(
+                id: ['18-6-103'],
+                size: blobSize,
+                styles: blobs.BlobStyles(
+                  color: const Color(0xFFE0E6F6),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: -160,
+              left: screenWidth * 0.6,
+              child: blobs.Blob.fromID(
+                id: ['18-6-103'],
+                size: blobSize,
+                styles: blobs.BlobStyles(
+                  color: const Color(0xFF002EB0),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
               child: Image.asset(
                 'lib/assets/icons/logo.png',
                 height: 100,
@@ -105,8 +135,8 @@ class _DashboardState extends State<Dashboard> {
                 fit: BoxFit.contain,
               ),
             ),
-            Positioned(
-              right: 16,
+            Align(
+              alignment: Alignment.centerRight,
               child: Builder(
                 builder: (context) => IconButton(
                   icon: const Icon(Icons.menu, color: Colors.black),
@@ -131,7 +161,7 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //pending design for header
+                  // Pending design for header
                 ],
               ),
             ),
