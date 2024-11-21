@@ -1,4 +1,4 @@
-import 'package:campuslostandfound/components/auth_google_button.dart';
+import 'package:campuslostandfound/components/item_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -54,7 +54,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
               top: -140,
               left: -60,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFFE0E6F6),
@@ -65,7 +65,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
               bottom: -160,
               left: screenWidth * 0.6,
               child: blobs.Blob.fromID(
-                id: ['18-6-103'],
+                id: const ['18-6-103'],
                 size: blobSize,
                 styles: blobs.BlobStyles(
                   color: const Color(0xFF002EB0),
@@ -110,51 +110,15 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Image Carousel
                   itemData?['imageUrl'] != null
                       ? (itemData?['imageUrl'] is List
-                          ? Column(
-                              children: (itemData?['imageUrl'] as List<dynamic>)
-                                  .map(
-                                    (url) => Image.network(
-                                      url,
-                                      width: double.infinity,
-                                      height: 300,
-                                      fit: BoxFit.cover,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        } else {
-                                          return const Center(
-                                            child: SpinKitChasingDots(
-                                              color: Color(0xFF002EB0),
-                                              size: 50.0,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
+                          ? ItemCarousel(
+                              imageUrls:
+                                  List<String>.from(itemData?['imageUrl']),
                             )
-                          : Image.network(
-                              itemData?['imageUrl'],
-                              width: double.infinity,
-                              height: 300,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                } else {
-                                  return const Center(
-                                    child: SpinKitChasingDots(
-                                      color: Color(0xFF002EB0),
-                                      size: 50.0,
-                                    ),
-                                  );
-                                }
-                              },
+                          : ItemCarousel(
+                              imageUrls: [itemData?['imageUrl']],
                             ))
                       : const Text('No Image Available'),
 
@@ -163,152 +127,161 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${itemData?['name'] ?? 'No Name'}',
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF002EB0),
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          '${itemData?['name'] ?? 'No Name'}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF002EB0),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        // IsClaimed
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: itemData?['isClaimed'] == true
+                                  ? const Color(0xFF2EB000)
+                                  : const Color(0xFFB0002E),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              itemData?['isClaimed'] == true
+                                  ? 'Claimed'
+                                  : 'Unclaimed',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Additional Description',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF002EB0),
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        const SizedBox(height: 5),
                         Text(
                           '${itemData?['description'] ?? 'No Description'}',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 30),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Category: ',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF002EB0),
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: [
-                              TextSpan(
-                                text:
-                                    '${itemData?['category'] ?? 'No Category'}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF002EB0),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ],
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF525660),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 20),
 
-                        // Location
-                        RichText(
-                          text: TextSpan(
-                            text: 'Location: ',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF002EB0),
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: [
-                              TextSpan(
-                                text:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Location
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Icon(Icons.location_on,
+                                          size: 16, color: Color(0xFF002EB0)),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Location',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF002EB0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
                                     '${itemData?['location'] ?? 'No Location'}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF002EB0),
-                                  fontFamily: 'Montserrat',
-                                ),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xFF525660),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Time
-                        RichText(
-                          text: TextSpan(
-                            text: 'Time: ',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF002EB0),
-                              fontFamily: 'Montserrat',
                             ),
-                            children: [
-                              TextSpan(
-                                text: itemData?['time'] != null
-                                    ? DateFormat('MM/dd/yyyy').format(
-                                        (itemData?['time'] as Timestamp)
-                                            .toDate())
-                                    : 'No Date',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF002EB0),
-                                  fontFamily: 'Montserrat',
-                                ),
+                            const SizedBox(width: 16),
+                            // Date
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Icon(Icons.calendar_today,
+                                          size: 16, color: Color(0xFF002EB0)),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Date',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF002EB0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    itemData?['time'] != null
+                                        ? DateFormat('MM/dd/yyyy').format(
+                                            (itemData?['time'] as Timestamp)
+                                                .toDate())
+                                        : 'No Date',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xFF525660),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Is Claimed
-                        RichText(
-                          text: TextSpan(
-                            text: 'Is Claimed: ',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF002EB0),
-                              fontFamily: 'Montserrat',
                             ),
-                            children: [
-                              TextSpan(
-                                text: itemData?['isClaimed'] == true
-                                    ? 'Claimed'
-                                    : 'Not Claimed',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF002EB0),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 20),
 
                         // Status
-                        RichText(
-                          text: TextSpan(
-                            text: 'Status: ',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF002EB0),
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: [
-                              TextSpan(
-                                text: '${itemData?['status'] ?? 'No Status'}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF002EB0),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ],
+                        const Text(
+                          'Status',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF002EB0),
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+
+                        Text(
+                          '${itemData?['status'] ?? 'No Status'}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xFF525660),
                           ),
                         ),
                         const SizedBox(height: 20),
                       ],
                     ),
                   ),
-                  // Claim Button Section
+                  // Claim Button
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
