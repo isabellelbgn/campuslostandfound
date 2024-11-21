@@ -68,7 +68,7 @@ class CategoryFilter extends StatelessWidget {
             onCategorySelected(category);
           },
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             backgroundColor: selectedCategory == category
                 ? const Color(0xFF002EB0)
                 : const Color(0xFFE0E0E0),
@@ -82,7 +82,8 @@ class CategoryFilter extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 36),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 36),
                 child: Icon(
                   _getCategoryIcon(category),
                   size: 30.0,

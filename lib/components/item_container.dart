@@ -65,7 +65,7 @@ class _ItemContainerState extends State<ItemContainer> {
                 style: TextStyle(
                   fontSize: 16,
                   color: _isHovered
-                      ? Color(0xFF002EB0)
+                      ? const Color(0xFF002EB0)
                       : Colors.grey, // Hover effect
                   fontWeight: FontWeight.bold,
                 ),
@@ -76,7 +76,7 @@ class _ItemContainerState extends State<ItemContainer> {
                 style: TextStyle(
                   fontSize: 14,
                   color: _isHovered
-                      ? Color(0xFF002EB0)
+                      ? const Color(0xFF002EB0)
                       : Colors.grey, // Hover effect
                 ),
               ),
@@ -86,7 +86,7 @@ class _ItemContainerState extends State<ItemContainer> {
                 style: TextStyle(
                   fontSize: 14,
                   color: _isHovered
-                      ? Color(0xFF002EB0)
+                      ? const Color(0xFF002EB0)
                       : Colors.grey, // Hover effect
                 ),
               ),

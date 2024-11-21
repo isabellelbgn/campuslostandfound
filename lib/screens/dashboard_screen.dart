@@ -123,8 +123,8 @@ class _DashboardState extends State<Dashboard> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
+            const DrawerHeader(
+              decoration: BoxDecoration(
                 color: Color(0xFF002EB0),
               ),
               child: Column(
@@ -183,10 +183,11 @@ class _DashboardState extends State<Dashboard> {
           children: [
             SearchItemBar(
               controller: _searchController,
-              onChanged: (query) {
+              onSearch: () {
                 setState(() {
-                  _searchQuery = query;
+                  _searchQuery = _searchController.text.trim();
                 });
+                // Perform the search logic here
               },
             ),
             const SizedBox(height: 10),
@@ -218,7 +219,7 @@ class _DashboardState extends State<Dashboard> {
 
                     return Column(
                       children: [
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
