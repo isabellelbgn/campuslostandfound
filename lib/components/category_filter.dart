@@ -19,13 +19,42 @@ class CategoryFilter extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _categoryFilterButton("All"),
+          _categoryFilterButton("Accessories"),
+          _categoryFilterButton("Bags"),
+          _categoryFilterButton("Identification"),
+          _categoryFilterButton("Personal Items"),
           _categoryFilterButton("Electronics"),
           _categoryFilterButton("Clothing"),
           _categoryFilterButton("Books"),
-          _categoryFilterButton("Accessories"),
+          _categoryFilterButton("Stationary"),
         ],
       ),
     );
+  }
+
+  IconData _getCategoryIcon(String category) {
+    switch (category) {
+      case "All":
+        return Icons.category;
+      case "Accessories":
+        return Icons.watch;
+      case "Bags":
+        return Icons.shopping_bag;
+      case "Identification":
+        return Icons.badge;
+      case "Personal Items":
+        return Icons.person;
+      case "Electronics":
+        return Icons.devices;
+      case "Clothing":
+        return Icons.checkroom;
+      case "Books":
+        return Icons.book;
+      case "Stationary":
+        return Icons.create;
+      default:
+        return Icons.help_outline;
+    }
   }
 
   Widget _categoryFilterButton(String category) {
@@ -39,7 +68,7 @@ class CategoryFilter extends StatelessWidget {
             onCategorySelected(category);
           },
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(vertical: 10),
             backgroundColor: selectedCategory == category
                 ? const Color(0xFF002EB0)
                 : const Color(0xFFE0E0E0),
@@ -51,14 +80,25 @@ class CategoryFilter extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              AutoSizeText(
-                category,
-                style: const TextStyle(fontSize: 14),
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 36),
+                child: Icon(
+                  _getCategoryIcon(category),
+                  size: 30.0,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AutoSizeText(
+                    category,
+                    style: const TextStyle(fontSize: 14),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ],
           ),

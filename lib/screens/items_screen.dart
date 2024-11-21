@@ -56,7 +56,8 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
         backgroundColor: Colors.white,
         title: const Text(
           "All Items",
-          style: TextStyle(color: Colors.black),
+          style:
+              TextStyle(color: Color(0xFF002EB0), fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
