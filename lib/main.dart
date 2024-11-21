@@ -48,16 +48,22 @@ class AuthState with ChangeNotifier {
       final user = userCredential.user;
 
       if (user != null) {
-        _showMessage(context, "Signed in as Guest");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-        );
+        if (context.mounted) {
+          _showMessage(context, "Signed in as Guest");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Dashboard()),
+          );
+        }
       } else {
-        _showMessage(context, "Sign-in failed. Please try again.");
+        if (context.mounted) {
+          _showMessage(context, "Sign-in failed. Please try again.");
+        }
       }
     } on FirebaseAuthException {
-      _showMessage(context, "Sign-in failed. Please try again.");
+      if (context.mounted) {
+        _showMessage(context, "Sign-in failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -67,13 +73,18 @@ class AuthState with ChangeNotifier {
     setLoading(true);
     try {
       final userCredential = await GoogleAuthService.signInWithGoogle();
-      _showMessage(context, "Signed in as ${userCredential.user?.displayName}");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-      );
+      if (context.mounted) {
+        _showMessage(
+            context, "Signed in as ${userCredential.user?.displayName}");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
     } on FirebaseAuthException {
-      _showMessage(context, "Sign-in failed. Please try again.");
+      if (context.mounted) {
+        _showMessage(context, "Sign-in failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -151,7 +162,7 @@ class MyHomePage extends StatelessWidget {
                     top: -120,
                     left: -100,
                     child: Blob.fromID(
-                      id: ['18-6-103'],
+                      id: const ['18-6-103'],
                       size: 400,
                       styles: BlobStyles(
                         color: const Color(0xFFE0E6F6),
@@ -162,7 +173,7 @@ class MyHomePage extends StatelessWidget {
                     top: -150,
                     left: -100,
                     child: Blob.fromID(
-                      id: ['6-6-54'],
+                      id: const ['6-6-54'],
                       size: 400,
                       styles: BlobStyles(
                         color: const Color(0xFF002EB0),
@@ -174,7 +185,7 @@ class MyHomePage extends StatelessWidget {
                     right: -280,
                     bottom: 200,
                     child: Blob.fromID(
-                      id: ['6-2-33005'],
+                      id: const ['6-2-33005'],
                       size: 400,
                       styles: BlobStyles(
                         color: const Color(0xFF002EB0),
@@ -185,7 +196,7 @@ class MyHomePage extends StatelessWidget {
                     bottom: -150,
                     right: -100,
                     child: Blob.fromID(
-                      id: ['4-5-4980'],
+                      id: const ['4-5-4980'],
                       size: 400,
                       styles: BlobStyles(
                         color: const Color(0xFFE0E6F6),
@@ -205,7 +216,7 @@ class MyHomePage extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                           const Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            padding: EdgeInsets.symmetric(horizontal: 50),
                             child: Text.rich(
                               TextSpan(
                                 text: 'Your Go-To App for Lost and Found at ',
@@ -230,10 +241,10 @@ class MyHomePage extends StatelessWidget {
                             onPressed: () =>
                                 authState.signInWithGoogle(context),
                           ),
-                          SizedBox(height: 15),
-                          SizedBox(
+                          const SizedBox(height: 15),
+                          const SizedBox(
                             width: 300,
-                            child: const Row(
+                            child: Row(
                               children: [
                                 Expanded(
                                   child: Divider(
@@ -260,7 +271,7 @@ class MyHomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           GuestSignInButton(
                             onPressed: () => authState.signInAsGuest(context),
                           ),
