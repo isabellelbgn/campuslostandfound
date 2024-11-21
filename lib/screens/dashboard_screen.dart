@@ -92,55 +92,90 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Dashboard",
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          overflow: TextOverflow.visible,
-        ),
-        actions: [
-          // Sign Out
-          TextButton(
-            onPressed: () async {
-              bool? confirmSignOut = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Confirm Sign Out"),
-                    content: const Text("Are you sure you want to sign out?"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        child: const Text("Cancel"),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: const Text("Sign Out"),
-                      ),
-                    ],
-                  );
-                },
-              );
-
-              if (confirmSignOut == true) {
-                await _signOut();
-              }
-            },
-            child: const Text(
-              "Sign Out",
-              style: TextStyle(
-                color: Color(0xFF002EB0),
-                fontSize: 14,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Image.asset(
+                'lib/assets/icons/logo.png',
+                height: 100,
+                width: 100,
+                fit: BoxFit.contain,
               ),
             ),
-          ),
-        ],
+            Positioned(
+              right: 16,
+              child: Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu, color: Colors.black),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color(0xFF002EB0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //pending design for header
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('About Us'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Sign Out'),
+              onTap: () async {
+                Navigator.pop(context);
+                bool? confirmSignOut = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Confirm Sign Out"),
+                      content: const Text("Are you sure you want to sign out?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: const Text("Sign Out"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                if (confirmSignOut == true) {
+                  await _signOut();
+                }
+              },
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -183,6 +218,7 @@ class _DashboardState extends State<Dashboard> {
 
                     return Column(
                       children: [
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
@@ -191,7 +227,9 @@ class _DashboardState extends State<Dashboard> {
                               const Text(
                                 "Lost Items Today",
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    color: Color(0xFF002EB0),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
                               ),
                               TextButton(
                                 onPressed: () async {
@@ -206,7 +244,10 @@ class _DashboardState extends State<Dashboard> {
                                 style: TextButton.styleFrom(
                                   foregroundColor: const Color(0xFF002EB0),
                                 ),
-                                child: const Text("See All Items"),
+                                child: const Text(
+                                  "See All Items",
+                                  style: TextStyle(color: Color(0xFFA8A8A8)),
+                                ),
                               ),
                             ],
                           ),
@@ -214,7 +255,10 @@ class _DashboardState extends State<Dashboard> {
                         Expanded(
                           child: filteredItems.isEmpty
                               ? const Center(
-                                  child: Text("No items found today."))
+                                  child: Text(
+                                  "No items found today.",
+                                  style: TextStyle(color: Color(0xFFA8A8A8)),
+                                ))
                               : ListView.builder(
                                   itemCount: filteredItems.length,
                                   itemBuilder: (context, index) {
