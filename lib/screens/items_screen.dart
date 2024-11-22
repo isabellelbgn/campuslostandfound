@@ -1,12 +1,10 @@
+import 'package:campuslostandfound/components/items_app_bar.dart';
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../components/item_container.dart';
 import '../components/search_bar.dart';
-import 'package:blobs/blobs.dart' as blobs;
-
-typedef FirestoreBlob = Blob;
 
 class SeeAllItemsPage extends StatefulWidget {
   const SeeAllItemsPage({super.key});
@@ -54,60 +52,19 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double blobSize = screenHeight * 0.3;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -140,
-              left: -60,
-              child: blobs.Blob.fromID(
-                id: const ['18-6-103'],
-                size: blobSize,
-                styles: blobs.BlobStyles(
-                  color: const Color(0xFFE0E6F6),
-                ),
-              ),
+      appBar: ItemsAppBar(
+        child: const Center(
+          child: Text(
+            'All Items',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF002EB0),
             ),
-            Positioned(
-              bottom: -160,
-              left: screenWidth * 0.6,
-              child: blobs.Blob.fromID(
-                id: const ['18-6-103'],
-                size: blobSize,
-                styles: blobs.BlobStyles(
-                  color: const Color(0xFF002EB0),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'lib/assets/icons/logo.png',
-                height: 100,
-                width: 100,
-                fit: BoxFit.contain,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Color(0xFF525660),
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ],
+          ),
         ),
+        onBackButtonPressed: () => Navigator.of(context).pop(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -122,7 +79,6 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                 });
               },
             ),
-            const SizedBox(height: 10),
             Expanded(
               child: FutureBuilder<List<Map<String, dynamic>>>(
                 future: fetchAllItems(),
