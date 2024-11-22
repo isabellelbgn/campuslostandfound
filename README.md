@@ -8,6 +8,7 @@
 - Firebase authentication is used to ensure user data security.
 
   <img width="200" alt="login-screen" src="https://github.com/user-attachments/assets/070038e4-0308-4eb1-9880-51cffab529ad">
+  <img width="200" alt="sign-out" src="https://github.com/user-attachments/assets/cfa5ad57-c810-4f68-8f21-a9adf68192de">
 
 ### Dashboard
 - Displays items reported today.
