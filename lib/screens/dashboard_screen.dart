@@ -1,4 +1,5 @@
 import 'package:campuslostandfound/components/dashboard_app_bar.dart';
+import 'package:campuslostandfound/components/dashboard_drawer.dart';
 import 'package:campuslostandfound/main.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,6 @@ class _DashboardState extends State<Dashboard> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
   String _selectedCategory = "All";
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Map<String, dynamic>>> fetchItems(
@@ -105,63 +105,8 @@ class _DashboardState extends State<Dashboard> {
           _scaffoldKey.currentState?.openEndDrawer();
         },
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color(0xFF002EB0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Pending design for header
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About Us'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Sign Out'),
-              onTap: () async {
-                Navigator.pop(context);
-                bool? confirmSignOut = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Confirm Sign Out"),
-                      content: const Text("Are you sure you want to sign out?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: const Text("Cancel"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
-                          child: const Text("Sign Out"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-
-                if (confirmSignOut == true) {
-                  await _signOut();
-                }
-              },
-            ),
-          ],
-        ),
+      endDrawer: DashboardDrawer(
+        onSignOut: _signOut,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
