@@ -1,4 +1,4 @@
-import 'package:blobs/blobs.dart' as blobs;
+import 'package:campuslostandfound/components/dashboard_app_bar.dart';
 import 'package:campuslostandfound/main.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +24,8 @@ class _DashboardState extends State<Dashboard> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
   String _selectedCategory = "All";
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Map<String, dynamic>>> fetchItems(
       {bool showTodayOnly = true}) async {
@@ -94,60 +96,14 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    double blobSize = screenHeight * 0.3;
-
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -140,
-              left: -60,
-              child: blobs.Blob.fromID(
-                id: const ['18-6-103'],
-                size: blobSize,
-                styles: blobs.BlobStyles(
-                  color: const Color(0xFFE0E6F6),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -160,
-              left: screenWidth * 0.6,
-              child: blobs.Blob.fromID(
-                id: const ['18-6-103'],
-                size: blobSize,
-                styles: blobs.BlobStyles(
-                  color: const Color(0xFF002EB0),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'lib/assets/icons/logo.png',
-                height: 100,
-                width: 100,
-                fit: BoxFit.contain,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+      key: _scaffoldKey,
+      appBar: DashboardAppBar(
+        blobSize: screenHeight * 0.3,
+        onMenuPressed: () {
+          _scaffoldKey.currentState?.openEndDrawer();
+        },
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -218,7 +174,6 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   _searchQuery = _searchController.text.trim();
                 });
-                // Perform the search logic here
               },
             ),
             const SizedBox(height: 10),
