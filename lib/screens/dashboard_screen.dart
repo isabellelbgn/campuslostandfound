@@ -97,6 +97,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+
+    User? user = FirebaseAuth.instance.currentUser;
+    String userEmail = user?.email ?? "No Email";
+    String userName = user?.displayName ?? "Guest";
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: DashboardAppBar(
@@ -107,6 +112,8 @@ class _DashboardState extends State<Dashboard> {
       ),
       endDrawer: DashboardDrawer(
         onSignOut: _signOut,
+        userEmail: userEmail,
+        userName: userName,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

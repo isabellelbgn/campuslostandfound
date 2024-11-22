@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DashboardDrawer extends StatelessWidget {
-  const DashboardDrawer({super.key, required this.onSignOut});
+  const DashboardDrawer({
+    super.key,
+    required this.onSignOut,
+    required this.userEmail,
+    required this.userName,
+  });
 
   final Future<void> Function() onSignOut;
+  final String userEmail;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -11,21 +18,37 @@ class DashboardDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Color(0xFF002EB0),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Pending design for header
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.person,
+                    size: 30,
+                    color: Color(0xFF002EB0),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Text(
-                  "Campus Lost & Found",
-                  style: TextStyle(
+                  userName,
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  userEmail,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
                   ),
                 ),
               ],
