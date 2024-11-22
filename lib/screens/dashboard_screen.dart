@@ -139,7 +139,7 @@ class _DashboardState extends State<Dashboard> {
               alignment: Alignment.centerRight,
               child: Builder(
                 builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.black),
+                  icon: const Icon(Icons.menu, color: Colors.white),
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
                   },
@@ -257,7 +257,7 @@ class _DashboardState extends State<Dashboard> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                "Lost Items Today",
+                                "Items Today",
                                 style: TextStyle(
                                     color: Color(0xFF002EB0),
                                     fontSize: 20,
@@ -278,7 +278,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 child: const Text(
                                   "See All Items",
-                                  style: TextStyle(color: Color(0xFFA8A8A8)),
+                                  style: TextStyle(color: Color(0xFF525660)),
                                 ),
                               ),
                             ],
@@ -295,18 +295,22 @@ class _DashboardState extends State<Dashboard> {
                                   itemCount: filteredItems.length,
                                   itemBuilder: (context, index) {
                                     var item = filteredItems[index];
-                                    return ItemContainer(
-                                      item: item,
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ItemDetailPage(
-                                                    itemId: item['id']),
-                                          ),
-                                        );
-                                      },
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0), // Add spacing
+                                      child: ItemContainer(
+                                        item: item,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemDetailPage(
+                                                      itemId: item['id']),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     );
                                   },
                                 ),

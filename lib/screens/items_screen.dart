@@ -120,7 +120,6 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                 setState(() {
                   _searchQuery = _searchController.text.trim();
                 });
-                // Perform the search logic here
               },
             ),
             const SizedBox(height: 10),
@@ -144,29 +143,27 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                     List<Map<String, dynamic>> filteredItems =
                         _filterItems(items);
 
-                    return SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: List.generate(filteredItems.length, (index) {
-                          var item = filteredItems[index];
-                          return SizedBox(
-                            width: (MediaQuery.of(context).size.width - 50) / 2,
-                            child: ItemContainer(
-                              item: item,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ItemDetailPage(itemId: item['id']),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
-                      ),
+                    return ListView.builder(
+                      itemCount: filteredItems.length,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      itemBuilder: (context, index) {
+                        var item = filteredItems[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: ItemContainer(
+                            item: item,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ItemDetailPage(itemId: item['id']),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
                     );
                   }
                 },
