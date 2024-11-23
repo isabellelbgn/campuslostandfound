@@ -62,18 +62,21 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ItemsAppBar(
-        child: const Center(
-          child: Text(
-            'All Items',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF002EB0),
+          child: const Center(
+            child: Text(
+              'All Items',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF002EB0),
+              ),
             ),
           ),
-        ),
-        onBackButtonPressed: () => Navigator.of(context).pop(),
-      ),
+          onBackButtonPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/home',
+                (Route<dynamic> route) => false,
+              )),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
