@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:campuslostandfound/components/auth_google_button.dart';
 import 'package:campuslostandfound/components/auth_guest_button.dart';
 import 'package:campuslostandfound/screens/dashboard_screen.dart';
+import 'package:campuslostandfound/screens/item_detail_screen.dart';
+import 'package:campuslostandfound/screens/items_screen.dart';
+import 'package:campuslostandfound/screens/message_screen.dart';
 import 'package:campuslostandfound/services/google_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -117,7 +120,13 @@ class MainApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'Montserrat',
         ),
-        home: const AuthWrapper(),
+        routes: {
+          '/': (context) => const AuthWrapper(),
+          '/home': (context) => const Dashboard(),
+          '/items': (context) => const SeeAllItemsPage(),
+          '/messages': (context) => const MessageScreen(),
+        },
+        initialRoute: '/',
       ),
     );
   }

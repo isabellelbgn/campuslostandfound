@@ -1,3 +1,4 @@
+import 'package:campuslostandfound/components/bottom_navbar.dart';
 import 'package:campuslostandfound/components/dashboard_app_bar.dart';
 import 'package:campuslostandfound/components/dashboard_drawer.dart';
 import 'package:campuslostandfound/main.dart';
@@ -26,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
   String _searchQuery = "";
   String _selectedCategory = "All";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
 
   Future<List<Map<String, dynamic>>> fetchItems(
       {bool showTodayOnly = true}) async {
@@ -92,6 +94,12 @@ class _DashboardState extends State<Dashboard> {
         MaterialPageRoute(builder: (context) => const MyHomePage()),
       );
     }
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -204,7 +212,7 @@ class _DashboardState extends State<Dashboard> {
                                     var item = filteredItems[index];
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0), // Add spacing
+                                          vertical: 8.0),
                                       child: ItemContainer(
                                         item: item,
                                         onTap: () {
@@ -230,6 +238,10 @@ class _DashboardState extends State<Dashboard> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavBarWidget(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
