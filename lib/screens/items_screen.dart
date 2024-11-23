@@ -1,3 +1,4 @@
+import 'package:campuslostandfound/components/bottom_navbar.dart';
 import 'package:campuslostandfound/components/items_app_bar.dart';
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class SeeAllItemsPage extends StatefulWidget {
 class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
+  int _selectedIndex = 1;
 
   Future<List<Map<String, dynamic>>> fetchAllItems() async {
     List<Map<String, dynamic>> itemsList = [];
@@ -48,6 +50,12 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                   .contains(_searchQuery.toLowerCase()))
           .toList();
     }
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -127,6 +135,10 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavBarWidget(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
