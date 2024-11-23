@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:campuslostandfound/components/auth_google_button.dart';
 import 'package:campuslostandfound/components/auth_guest_button.dart';
 import 'package:campuslostandfound/screens/dashboard_screen.dart';
-import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:campuslostandfound/screens/message_screen.dart';
 import 'package:campuslostandfound/services/google_auth_service.dart';
@@ -53,10 +52,7 @@ class AuthState with ChangeNotifier {
       if (user != null) {
         if (context.mounted) {
           _showMessage(context, "Signed in as Guest");
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Dashboard()),
-          );
+          Navigator.pushReplacementNamed(context, '/home');
         }
       } else {
         if (context.mounted) {
@@ -79,10 +75,7 @@ class AuthState with ChangeNotifier {
       if (context.mounted) {
         _showMessage(
             context, "Signed in as ${userCredential.user?.displayName}");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-        );
+        Navigator.pushReplacementNamed(context, '/home');
       }
     } on FirebaseAuthException {
       if (context.mounted) {

@@ -2,7 +2,6 @@ import 'package:campuslostandfound/components/bottom_navbar.dart';
 import 'package:campuslostandfound/components/dashboard_app_bar.dart';
 import 'package:campuslostandfound/components/dashboard_drawer.dart';
 import 'package:campuslostandfound/main.dart';
-import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -180,13 +179,8 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SeeAllItemsPage(),
-                                    ),
-                                  );
+                                  Navigator.pushReplacementNamed(
+                                      context, '/items');
                                 },
                                 style: TextButton.styleFrom(
                                   foregroundColor: const Color(0xFF002EB0),
