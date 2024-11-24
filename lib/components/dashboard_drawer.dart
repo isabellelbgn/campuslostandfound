@@ -59,6 +59,7 @@ class DashboardDrawer extends StatelessWidget {
             title: const Text('About Us'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/about');
             },
           ),
           ListTile(

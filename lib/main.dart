@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:campuslostandfound/components/auth_google_button.dart';
 import 'package:campuslostandfound/components/auth_guest_button.dart';
+import 'package:campuslostandfound/screens/about_screen.dart';
 import 'package:campuslostandfound/screens/dashboard_screen.dart';
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:campuslostandfound/screens/items_screen.dart';
@@ -125,6 +126,7 @@ class MainApp extends StatelessWidget {
           '/home': (context) => const Dashboard(),
           '/items': (context) => const SeeAllItemsPage(),
           '/messages': (context) => const MessageScreen(),
+          '/about': (context) => const AboutScreen(),
         },
         initialRoute: '/',
       ),
