@@ -23,6 +23,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   String _searchQuery = "";
   int _selectedIndex = 1;
   final ItemService _itemService = ItemService();
+  final FocusNode _searchFocusNode = FocusNode();
 
   late final SearchService _searchService;
 
@@ -30,6 +31,9 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   void initState() {
     super.initState();
     _searchService = SearchService();
+    _searchFocusNode.addListener(() {
+      setState(() {});
+    });
   }
 
   List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
@@ -46,6 +50,13 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                   .contains(_searchQuery.toLowerCase()))
           .toList();
     }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -103,6 +114,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
             SearchInput(
               controller: _searchController,
               onSearch: _performSearch,
+              focusNode: _searchFocusNode,
             ),
             const SizedBox(height: 10),
             SearchHistory(

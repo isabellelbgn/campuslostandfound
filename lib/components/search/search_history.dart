@@ -4,14 +4,14 @@ import 'package:campuslostandfound/services/search_service.dart';
 class SearchHistory extends StatelessWidget {
   final String userId;
   final Function(String) onSearchTermSelected;
-  final Function onClearHistory;
+  final VoidCallback onClearHistory;
 
   const SearchHistory({
-    super.key,
+    Key? key,
     required this.userId,
     required this.onSearchTermSelected,
     required this.onClearHistory,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +25,41 @@ class SearchHistory extends StatelessWidget {
         }
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Wrap(
-              spacing: 8.0,
-              children: snapshot.data!.map((doc) {
-                String term = doc['searchTerm'] ?? '';
-                return ActionChip(
-                  label: Text(term),
-                  onPressed: () {
+            const SizedBox(height: 10),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                String term = snapshot.data![index]['searchTerm'] ?? '';
+                return ListTile(
+                  leading: const Icon(Icons.history, color: Colors.grey),
+                  title: Text(term),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.grey),
+                    onPressed: () async {
+                      await searchQueryService.deleteSearchTerm(userId, term);
+                    },
+                  ),
+                  onTap: () {
                     onSearchTermSelected(term);
                   },
                 );
-              }).toList(),
+              },
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () => onClearHistory(),
-              child: const Text("Clear History"),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: onClearHistory,
+                  child: const Text(
+                    "Clear all",
+                    style: TextStyle(color: Color(0xFF002EB0)),
+                  ),
+                ),
+              ],
             ),
           ],
         );
