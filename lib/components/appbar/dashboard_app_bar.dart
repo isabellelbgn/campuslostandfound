@@ -51,10 +51,10 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             fit: BoxFit.contain,
           ),
         ),
-        Positioned(
-          top: 20,
-          right: 15,
+        Align(
+          alignment: Alignment.centerRight,
           child: Container(
+            margin: const EdgeInsets.only(top: 20, right: 15),
             width: 40,
             height: 40,
             decoration: const BoxDecoration(
