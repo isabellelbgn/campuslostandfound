@@ -1,6 +1,6 @@
 import 'package:campuslostandfound/components/bottom_navbar.dart';
-import 'package:campuslostandfound/components/dashboard_app_bar.dart';
-import 'package:campuslostandfound/components/dashboard_drawer.dart';
+import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
+import 'package:campuslostandfound/components/appbar/dashboard_drawer.dart';
 import 'package:blobs/blobs.dart' as blobs;
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';

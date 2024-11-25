@@ -1,6 +1,5 @@
-import 'package:campuslostandfound/components/bottom_navbar.dart';
-import 'package:campuslostandfound/components/dashboard_app_bar.dart';
-import 'package:campuslostandfound/components/items_app_bar.dart';
+import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
+import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class MessageScreen extends StatefulWidget {

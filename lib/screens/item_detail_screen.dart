@@ -1,5 +1,5 @@
-import 'package:campuslostandfound/components/item_carousel.dart';
-import 'package:campuslostandfound/components/items_app_bar.dart';
+import 'package:campuslostandfound/components/items/item_image_carousel.dart';
+import 'package:campuslostandfound/components/appbar/items_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
