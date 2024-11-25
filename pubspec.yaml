@@ -31,6 +31,8 @@ flutter:
   uses-material-design: true
   assets:
   - lib/assets/icons/logo.png
+  - lib/assets/icons/Angeles.png
+  - lib/assets/icons/Labuguen.png
 
   fonts:
     - family: Montserrat

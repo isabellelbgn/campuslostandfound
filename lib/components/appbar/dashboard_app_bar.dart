@@ -51,11 +51,20 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             fit: BoxFit.contain,
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: onMenuPressed,
+        Positioned(
+          top: 20,
+          right: 15,
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE0E6F6),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.menu, color: Colors.grey),
+              onPressed: onMenuPressed,
+            ),
           ),
         ),
       ],

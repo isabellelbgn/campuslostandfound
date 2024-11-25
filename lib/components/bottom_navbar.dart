@@ -29,7 +29,8 @@ class BottomNavBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: selectedIndex,
+      currentIndex:
+          selectedIndex >= 0 && selectedIndex <= 2 ? selectedIndex : 0,
       onTap: (index) {
         _navigate(context, index);
         onItemTapped(index);
