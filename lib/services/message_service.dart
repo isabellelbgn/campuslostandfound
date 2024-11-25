@@ -30,7 +30,6 @@ class MessageService {
 
     return FirebaseFirestore.instance
         .collection('messages')
-        .where('senderId', isEqualTo: userId)
         .where('receiverId', isEqualTo: Config._adminId)
         .orderBy('timestamp', descending: true)
         .snapshots()
