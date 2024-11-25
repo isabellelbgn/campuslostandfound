@@ -5,10 +5,10 @@ class BottomNavBarWidget extends StatelessWidget {
   final Function(int) onItemTapped;
 
   const BottomNavBarWidget({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onItemTapped,
-  }) : super(key: key);
+  });
 
   void _navigate(BuildContext context, int index) {
     switch (index) {
@@ -35,7 +35,7 @@ class BottomNavBarWidget extends StatelessWidget {
         onItemTapped(index);
       },
       backgroundColor: Colors.white,
-      selectedItemColor: Color(0xFF002EB0),
+      selectedItemColor: const Color(0xFF002EB0),
       unselectedItemColor: Colors.grey,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
