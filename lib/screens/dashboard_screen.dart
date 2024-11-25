@@ -1,13 +1,17 @@
 import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
 import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
 import 'package:campuslostandfound/components/appbar/dashboard_drawer.dart';
+import 'package:campuslostandfound/components/search/search_history.dart';
+import 'package:campuslostandfound/components/search/search_input.dart';
 import 'package:campuslostandfound/main.dart';
-import 'package:campuslostandfound/services/fetch_item_service.dart';
+import 'package:campuslostandfound/services/auth_state.dart';
+import 'package:campuslostandfound/services/item_service.dart';
+import 'package:campuslostandfound/services/search_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../components/search_bar.dart';
+import 'package:provider/provider.dart';
 import '../components/category_filter.dart';
 import '../components/items/item_container.dart';
 import 'item_detail_screen.dart';
@@ -24,11 +28,18 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final TextEditingController _searchController = TextEditingController();
   final ItemService _itemService = ItemService();
-
   String _searchQuery = "";
   String _selectedCategory = "All";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
+
+  late final SearchService _searchService;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchService = SearchService();
+  }
 
   Future<List<Map<String, dynamic>>> _fetchItems({bool showTodayOnly = true}) {
     return _itemService.fetchItems(showTodayOnly: showTodayOnly);
@@ -78,8 +89,29 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  void _performSearch() {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      setState(() {
+        _searchQuery = query;
+      });
+      final user = Provider.of<AuthState>(context, listen: false).user;
+      _searchService.addSearchQuery(query, user?.uid ?? "");
+    }
+  }
+
+  void _clearSearchHistory() {
+    final userId = Provider.of<AuthState>(context, listen: false).user?.uid;
+    if (userId != null) {
+      _searchService.clearSearchHistory(userId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authState = Provider.of<AuthState>(context);
+    final currentUserId = authState.user?.uid;
+
     double screenHeight = MediaQuery.of(context).size.height;
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -104,13 +136,21 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            SearchItemBar(
+            SearchInput(
               controller: _searchController,
-              onSearch: () {
+              onSearch: _performSearch,
+            ),
+            const SizedBox(height: 10),
+            SearchHistory(
+              userId: currentUserId ?? "",
+              onSearchTermSelected: (term) {
                 setState(() {
-                  _searchQuery = _searchController.text.trim();
+                  _searchController.text = term;
+                  _searchQuery = term;
                 });
+                _performSearch();
               },
+              onClearHistory: _clearSearchHistory,
             ),
             const SizedBox(height: 10),
             CategoryFilter(
