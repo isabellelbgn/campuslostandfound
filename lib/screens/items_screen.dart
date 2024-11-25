@@ -1,10 +1,10 @@
-import 'package:campuslostandfound/components/bottom_navbar.dart';
-import 'package:campuslostandfound/components/items_app_bar.dart';
+import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
+import 'package:campuslostandfound/components/appbar/items_app_bar.dart';
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../components/item_container.dart';
+import '../components/items/item_container.dart';
 import '../components/search_bar.dart';
 
 class SeeAllItemsPage extends StatefulWidget {
@@ -62,18 +62,21 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ItemsAppBar(
-        child: const Center(
-          child: Text(
-            'All Items',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF002EB0),
+          child: const Center(
+            child: Text(
+              'All Items',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF002EB0),
+              ),
             ),
           ),
-        ),
-        onBackButtonPressed: () => Navigator.of(context).pop(),
-      ),
+          onBackButtonPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/home',
+                (Route<dynamic> route) => false,
+              )),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(

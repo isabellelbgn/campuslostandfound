@@ -1,15 +1,14 @@
-import 'package:campuslostandfound/components/bottom_navbar.dart';
-import 'package:campuslostandfound/components/dashboard_app_bar.dart';
-import 'package:campuslostandfound/components/dashboard_drawer.dart';
+import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
+import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
+import 'package:campuslostandfound/components/appbar/dashboard_drawer.dart';
 import 'package:campuslostandfound/main.dart';
-import 'package:campuslostandfound/screens/items_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../components/search_bar.dart';
 import '../components/category_filter.dart';
-import '../components/item_container.dart';
+import '../components/items/item_container.dart';
 import 'item_detail_screen.dart';
 
 typedef FirestoreBlob = Blob;
@@ -180,13 +179,8 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SeeAllItemsPage(),
-                                    ),
-                                  );
+                                  Navigator.pushReplacementNamed(
+                                      context, '/items');
                                 },
                                 style: TextButton.styleFrom(
                                   foregroundColor: const Color(0xFF002EB0),
