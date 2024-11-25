@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import '../components/items/item_container.dart';
+import '../components/category_filter.dart';
 
 class SeeAllItemsPage extends StatefulWidget {
   const SeeAllItemsPage({super.key});
@@ -21,6 +22,7 @@ class SeeAllItemsPage extends StatefulWidget {
 class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
+  String _selectedCategory = "All";
   int _selectedIndex = 1;
   final ItemService _itemService = ItemService();
   final FocusNode _searchFocusNode = FocusNode();
@@ -37,10 +39,18 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   }
 
   List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
-    if (_searchQuery.isEmpty) {
-      return items;
-    } else {
-      return items
+    List<Map<String, dynamic>> filteredItems = items;
+
+    if (_selectedCategory != "All") {
+      filteredItems = filteredItems
+          .where((item) =>
+              (item['category'] ?? '').toLowerCase() ==
+              _selectedCategory.toLowerCase())
+          .toList();
+    }
+
+    if (_searchQuery.isNotEmpty) {
+      filteredItems = filteredItems
           .where((item) =>
               (item['name'] ?? '')
                   .toLowerCase()
@@ -50,6 +60,8 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
                   .contains(_searchQuery.toLowerCase()))
           .toList();
     }
+
+    return filteredItems;
   }
 
   @override
@@ -129,6 +141,14 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
               onClearHistory: _clearSearchHistory,
             ),
             const SizedBox(height: 10),
+            CategoryFilter(
+              selectedCategory: _selectedCategory,
+              onCategorySelected: (category) {
+                setState(() {
+                  _selectedCategory = category;
+                });
+              },
+            ),
             Expanded(
               child: FutureBuilder<List<Map<String, dynamic>>>(
                 future: _itemService.fetchItems(showTodayOnly: false),
