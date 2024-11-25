@@ -2,6 +2,7 @@ import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
 import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
 import 'package:campuslostandfound/components/appbar/dashboard_drawer.dart';
 import 'package:campuslostandfound/main.dart';
+import 'package:campuslostandfound/services/fetch_item_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,40 +22,16 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _searchController = TextEditingController();
+  final ItemService _itemService = ItemService();
+
   String _searchQuery = "";
   String _selectedCategory = "All";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
-  Future<List<Map<String, dynamic>>> fetchItems(
-      {bool showTodayOnly = true}) async {
-    List<Map<String, dynamic>> itemsList = [];
-    DateTime now = DateTime.now();
-    DateTime startOfDay = DateTime(now.year, now.month, now.day);
-
-    try {
-      QuerySnapshot querySnapshot;
-      if (showTodayOnly) {
-        querySnapshot = await _firestore
-            .collection("items")
-            .where("time", isGreaterThanOrEqualTo: startOfDay)
-            .where("time", isLessThan: startOfDay.add(const Duration(days: 1)))
-            .get();
-      } else {
-        querySnapshot = await _firestore.collection("items").get();
-      }
-
-      for (var docSnapshot in querySnapshot.docs) {
-        final itemData = docSnapshot.data() as Map<String, dynamic>;
-        itemData['id'] = docSnapshot.id;
-        itemsList.add(itemData);
-      }
-    } catch (e) {
-      print("Error fetching items: $e");
-    }
-    return itemsList;
+  Future<List<Map<String, dynamic>>> _fetchItems({bool showTodayOnly = true}) {
+    return _itemService.fetchItems(showTodayOnly: showTodayOnly);
   }
 
   List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
@@ -146,7 +123,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             Expanded(
               child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: fetchItems(showTodayOnly: true),
+                future: _fetchItems(showTodayOnly: true),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(

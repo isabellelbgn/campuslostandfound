@@ -1,8 +1,8 @@
 import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
 import 'package:campuslostandfound/components/appbar/items_app_bar.dart';
 import 'package:campuslostandfound/screens/item_detail_screen.dart';
+import 'package:campuslostandfound/services/fetch_item_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../components/items/item_container.dart';
 import '../components/search_bar.dart';
@@ -18,23 +18,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
   int _selectedIndex = 1;
-
-  Future<List<Map<String, dynamic>>> fetchAllItems() async {
-    List<Map<String, dynamic>> itemsList = [];
-
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection("items").get();
-      for (var docSnapshot in querySnapshot.docs) {
-        final itemData = docSnapshot.data() as Map<String, dynamic>;
-        itemData['id'] = docSnapshot.id;
-        itemsList.add(itemData);
-      }
-    } catch (e) {
-      print("Error fetching items: $e");
-    }
-    return itemsList;
-  }
+  final ItemService _itemService = ItemService();
 
   List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
     if (_searchQuery.isEmpty) {
@@ -92,7 +76,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
             ),
             Expanded(
               child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: fetchAllItems(),
+                future: _itemService.fetchItems(showTodayOnly: false),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
