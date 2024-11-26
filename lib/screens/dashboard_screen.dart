@@ -32,13 +32,16 @@ class _DashboardState extends State<Dashboard> {
   String _selectedCategory = "All";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-
+  final FocusNode _searchFocusNode = FocusNode();
   late final SearchService _searchService;
 
   @override
   void initState() {
     super.initState();
     _searchService = SearchService();
+    _searchFocusNode.addListener(() {
+      setState(() {});
+    });
   }
 
   Future<List<Map<String, dynamic>>> _fetchItems({bool showTodayOnly = true}) {
@@ -87,6 +90,13 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   void _performSearch() {
@@ -139,19 +149,21 @@ class _DashboardState extends State<Dashboard> {
             SearchInput(
               controller: _searchController,
               onSearch: _performSearch,
+              focusNode: _searchFocusNode,
             ),
-            const SizedBox(height: 10),
-            SearchHistory(
-              userId: currentUserId ?? "",
-              onSearchTermSelected: (term) {
-                setState(() {
-                  _searchController.text = term;
-                  _searchQuery = term;
-                });
-                _performSearch();
-              },
-              onClearHistory: _clearSearchHistory,
-            ),
+            const SizedBox(height: 20),
+            if (_searchFocusNode.hasFocus)
+              SearchHistory(
+                userId: currentUserId ?? "",
+                onSearchTermSelected: (term) {
+                  setState(() {
+                    _searchController.text = term;
+                    _searchQuery = term;
+                  });
+                  _performSearch();
+                },
+                onClearHistory: _clearSearchHistory,
+              ),
             const SizedBox(height: 10),
             CategoryFilter(
               selectedCategory: _selectedCategory,

@@ -57,4 +57,22 @@ class SearchService {
       print("Error clearing search history: $e");
     }
   }
+
+  Future<void> deleteSearchTerm(String userId, String searchTerm) async {
+    if (userId.isEmpty || searchTerm.isEmpty) return;
+
+    try {
+      final querySnapshot = await _firestore
+          .collection('searchHistory')
+          .where('userId', isEqualTo: userId)
+          .where('searchTerm', isEqualTo: searchTerm)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } catch (e) {
+      print("Error deleting search term: $e");
+    }
+  }
 }
