@@ -205,25 +205,25 @@ class _AboutScreenState extends State<AboutScreen> {
                                       fit: BoxFit.contain,
                                     ),
                                     const SizedBox(width: 20),
-                                    const Expanded(
+                                    Expanded(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Isabelle Labuguen",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Color(0xFF002EB0)),
                                           ),
-                                          Text(
+                                          const Text(
                                             "Computer Science 4A",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 10),
                                           ),
-                                          SizedBox(height: 10),
-                                          Text(
+                                          const SizedBox(height: 10),
+                                          const Text(
                                             "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                             style: TextStyle(
                                               color: Color(0xFF002EB0),
@@ -233,26 +233,44 @@ class _AboutScreenState extends State<AboutScreen> {
                                             maxLines: 3,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           Row(
                                             children: [
-                                              FaIcon(
-                                                FontAwesomeIcons.linkedin,
-                                                size: 20,
-                                                color: Colors.grey,
+                                              InkWell(
+                                                onTap: () {
+                                                  _launchURL(
+                                                      'https://www.linkedin.com/in/isabellelabuguen/');
+                                                },
+                                                child: const FaIcon(
+                                                  FontAwesomeIcons.linkedin,
+                                                  size: 20,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
-                                              SizedBox(width: 10),
-                                              FaIcon(
-                                                FontAwesomeIcons
-                                                    .facebookMessenger,
-                                                size: 20,
-                                                color: Colors.grey,
+                                              const SizedBox(width: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  _launchURL(
+                                                      'https://www.facebook.com/BelleLabuguen');
+                                                },
+                                                child: const FaIcon(
+                                                  FontAwesomeIcons
+                                                      .facebookMessenger,
+                                                  size: 20,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
-                                              SizedBox(width: 10),
-                                              FaIcon(
-                                                FontAwesomeIcons.github,
-                                                size: 20,
-                                                color: Colors.grey,
+                                              const SizedBox(width: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  _launchURL(
+                                                      'https://github.com/isabellelbgn');
+                                                },
+                                                child: const FaIcon(
+                                                  FontAwesomeIcons.github,
+                                                  size: 20,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -274,25 +292,25 @@ class _AboutScreenState extends State<AboutScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Expanded(
+                                      Expanded(
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Martina Angeles",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Color(0xFF002EB0)),
                                             ),
-                                            Text(
+                                            const Text(
                                               "Computer Science 4A",
                                               style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 10),
                                             ),
-                                            SizedBox(height: 10),
-                                            Text(
+                                            const SizedBox(height: 10),
+                                            const Text(
                                               "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                               style: TextStyle(
                                                 color: Color(0xFF002EB0),
@@ -302,26 +320,44 @@ class _AboutScreenState extends State<AboutScreen> {
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            SizedBox(height: 10),
+                                            const SizedBox(height: 10),
                                             Row(
                                               children: [
-                                                FaIcon(
-                                                  FontAwesomeIcons.linkedin,
-                                                  size: 20,
-                                                  color: Colors.grey,
+                                                InkWell(
+                                                  onTap: () {
+                                                    _launchURL(
+                                                        'https://www.linkedin.com/in/isabellelabuguen/');
+                                                  },
+                                                  child: const FaIcon(
+                                                    FontAwesomeIcons.linkedin,
+                                                    size: 20,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
-                                                SizedBox(width: 10),
-                                                FaIcon(
-                                                  FontAwesomeIcons
-                                                      .facebookMessenger,
-                                                  size: 20,
-                                                  color: Colors.grey,
+                                                const SizedBox(width: 10),
+                                                InkWell(
+                                                  onTap: () {
+                                                    _launchURL(
+                                                        'https://www.facebook.com/BelleLabuguen');
+                                                  },
+                                                  child: const FaIcon(
+                                                    FontAwesomeIcons
+                                                        .facebookMessenger,
+                                                    size: 20,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
-                                                SizedBox(width: 10),
-                                                FaIcon(
-                                                  FontAwesomeIcons.github,
-                                                  size: 20,
-                                                  color: Colors.grey,
+                                                const SizedBox(width: 10),
+                                                InkWell(
+                                                  onTap: () {
+                                                    _launchURL(
+                                                        'https://github.com/isabellelbgn');
+                                                  },
+                                                  child: const FaIcon(
+                                                    FontAwesomeIcons.github,
+                                                    size: 20,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
                                               ],
                                             ),
