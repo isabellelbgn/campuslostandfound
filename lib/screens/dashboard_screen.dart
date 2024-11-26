@@ -101,12 +101,16 @@ class _DashboardState extends State<Dashboard> {
 
   void _performSearch() {
     final query = _searchController.text.trim();
+    final user = Provider.of<AuthState>(context, listen: false).user;
+
+    if (user == null) return;
+
+    setState(() {
+      _searchQuery = query;
+    });
+
     if (query.isNotEmpty) {
-      setState(() {
-        _searchQuery = query;
-      });
-      final user = Provider.of<AuthState>(context, listen: false).user;
-      _searchService.addSearchQuery(query, user?.uid ?? "");
+      _searchService.addSearchQuery(query, user.uid);
     }
   }
 
@@ -151,7 +155,7 @@ class _DashboardState extends State<Dashboard> {
               onSearch: _performSearch,
               focusNode: _searchFocusNode,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             if (_searchFocusNode.hasFocus)
               SearchHistory(
                 userId: currentUserId ?? "",
