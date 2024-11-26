@@ -128,18 +128,19 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
               onSearch: _performSearch,
               focusNode: _searchFocusNode,
             ),
-            const SizedBox(height: 10),
-            SearchHistory(
-              userId: currentUserId ?? "",
-              onSearchTermSelected: (term) {
-                setState(() {
-                  _searchController.text = term;
-                  _searchQuery = term;
-                });
-                _performSearch();
-              },
-              onClearHistory: _clearSearchHistory,
-            ),
+            const SizedBox(height: 20),
+            if (_searchFocusNode.hasFocus)
+              SearchHistory(
+                userId: currentUserId ?? "",
+                onSearchTermSelected: (term) {
+                  setState(() {
+                    _searchController.text = term;
+                    _searchQuery = term;
+                  });
+                  _performSearch();
+                },
+                onClearHistory: _clearSearchHistory,
+              ),
             const SizedBox(height: 10),
             CategoryFilter(
               selectedCategory: _selectedCategory,
