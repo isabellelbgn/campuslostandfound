@@ -1,10 +1,11 @@
 import 'package:campuslostandfound/components/appbar/bottom_navbar.dart';
-import 'package:campuslostandfound/components/appbar/dashboard_app_bar.dart';
+import 'package:campuslostandfound/components/appbar/items_app_bar.dart';
 import 'package:campuslostandfound/services/message_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:campuslostandfound/services/auth_state.dart';
+import 'package:intl/intl.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -16,10 +17,9 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   final MessageService _messageService = MessageService();
   final TextEditingController _messageController = TextEditingController();
-  final String _adminId = "qxekciTAKXMPzSi7Xy1A7CXvLXd2";
+  final String _adminId = "AlCetjGrQIdMUZsSURy2AFr9uFp1";
 
   int _selectedIndex = 2;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<Map<String, dynamic>> _localMessages = [];
 
@@ -64,11 +64,22 @@ class _MessageScreenState extends State<MessageScreen> {
     final currentUserId = authState.user?.uid;
 
     return Scaffold(
-      appBar: DashboardAppBar(
-        blobSize: MediaQuery.of(context).size.height * 0.3,
-        onMenuPressed: () {
-          _scaffoldKey.currentState?.openEndDrawer();
-        },
+      appBar: ItemsAppBar(
+        child: const Center(
+          child: Text(
+            'Messages',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF002EB0),
+            ),
+          ),
+        ),
+        onBackButtonPressed: () => Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+          (Route<dynamic> route) => false,
+        ),
       ),
       body: Column(
         children: [
@@ -131,14 +142,14 @@ class _MessageScreenState extends State<MessageScreen> {
                               Text(
                                 message['timestamp'] != null
                                     ? (message['timestamp'] is Timestamp
-                                        ? (message['timestamp'] as Timestamp)
-                                            .toDate()
-                                            .toString()
-                                            .split('.')[0]
-                                        : DateTime.parse(message['timestamp'])
-                                            .toLocal()
-                                            .toString()
-                                            .split('.')[0])
+                                        ? DateFormat('MMM dd, yyyy HH:mm')
+                                            .format((message['timestamp']
+                                                    as Timestamp)
+                                                .toDate())
+                                        : DateFormat('MMM dd, yyyy HH:mm')
+                                            .format(DateTime.parse(
+                                                    message['timestamp'])
+                                                .toLocal()))
                                     : 'Sending...',
                                 style: TextStyle(
                                   color: isCurrentUser
@@ -146,7 +157,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                       : Colors.black54,
                                   fontSize: 12.0,
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),

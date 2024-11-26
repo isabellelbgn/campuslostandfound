@@ -7,11 +7,11 @@ class SearchHistory extends StatelessWidget {
   final VoidCallback onClearHistory;
 
   const SearchHistory({
-    Key? key,
+    super.key,
     required this.userId,
     required this.onSearchTermSelected,
     required this.onClearHistory,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class SearchHistory extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
             ListView.builder(
               shrinkWrap: true,
               itemCount: snapshot.data!.length,

@@ -41,6 +41,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
   List<Map<String, dynamic>> _filterItems(List<Map<String, dynamic>> items) {
     List<Map<String, dynamic>> filteredItems = items;
 
+    // Filter by category
     if (_selectedCategory != "All") {
       filteredItems = filteredItems
           .where((item) =>
@@ -49,6 +50,7 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
           .toList();
     }
 
+    // Filter by search query
     if (_searchQuery.isNotEmpty) {
       filteredItems = filteredItems
           .where((item) =>
@@ -79,12 +81,16 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
 
   void _performSearch() {
     final query = _searchController.text.trim();
+    final user = Provider.of<AuthState>(context, listen: false).user;
+
+    if (user == null) return;
+
+    setState(() {
+      _searchQuery = query;
+    });
+
     if (query.isNotEmpty) {
-      setState(() {
-        _searchQuery = query;
-      });
-      final user = Provider.of<AuthState>(context, listen: false).user;
-      _searchService.addSearchQuery(query, user?.uid ?? "");
+      _searchService.addSearchQuery(query, user.uid);
     }
   }
 
@@ -119,85 +125,87 @@ class _SeeAllItemsPageState extends State<SeeAllItemsPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            SearchInput(
-              controller: _searchController,
-              onSearch: _performSearch,
-              focusNode: _searchFocusNode,
-            ),
-            const SizedBox(height: 20),
-            if (_searchFocusNode.hasFocus)
-              SearchHistory(
-                userId: currentUserId ?? "",
-                onSearchTermSelected: (term) {
-                  setState(() {
-                    _searchController.text = term;
-                    _searchQuery = term;
-                  });
-                  _performSearch();
-                },
-                onClearHistory: _clearSearchHistory,
-              ),
-            const SizedBox(height: 10),
-            CategoryFilter(
-              selectedCategory: _selectedCategory,
-              onCategorySelected: (category) {
-                setState(() {
-                  _selectedCategory = category;
-                });
-              },
-            ),
-            Expanded(
-              child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: _itemService.fetchItems(showTodayOnly: false),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: SpinKitChasingDots(
-                        color: Color(0xFF002EB0),
-                        size: 50.0,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text("Error: ${snapshot.error}"));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text("No items found."));
-                  } else {
-                    List<Map<String, dynamic>> items = snapshot.data!;
-                    List<Map<String, dynamic>> filteredItems =
-                        _filterItems(items);
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                SearchInput(
+                  controller: _searchController,
+                  onSearch: _performSearch,
+                  focusNode: _searchFocusNode,
+                ),
+                const SizedBox(height: 20),
+                if (_searchFocusNode.hasFocus)
+                  SearchHistory(
+                    userId: currentUserId ?? "",
+                    onSearchTermSelected: (term) {
+                      setState(() {
+                        _searchController.text = term;
+                        _searchQuery = term;
+                      });
+                      _performSearch();
+                    },
+                    onClearHistory: _clearSearchHistory,
+                  ),
+                CategoryFilter(
+                  selectedCategory: _selectedCategory,
+                  onCategorySelected: (category) {
+                    setState(() {
+                      _selectedCategory = category;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _itemService.fetchItems(showTodayOnly: false),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: SpinKitChasingDots(
+                          color: Color(0xFF002EB0),
+                          size: 50.0,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("Error: ${snapshot.error}"));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text("No items found."));
+                    } else {
+                      List<Map<String, dynamic>> items = snapshot.data!;
+                      List<Map<String, dynamic>> filteredItems =
+                          _filterItems(items);
 
-                    return ListView.builder(
-                      itemCount: filteredItems.length,
-                      itemBuilder: (context, index) {
-                        var item = filteredItems[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: ItemContainer(
-                            item: item,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ItemDetailPage(itemId: item['id']),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: filteredItems.length,
+                        itemBuilder: (context, index) {
+                          var item = filteredItems[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ItemContainer(
+                              item: item,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ItemDetailPage(itemId: item['id']),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          )),
       bottomNavigationBar: BottomNavBarWidget(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
