@@ -17,7 +17,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   final MessageService _messageService = MessageService();
   final TextEditingController _messageController = TextEditingController();
-  final String _adminId = "AlCetjGrQIdMUZsSURy2AFr9uFp1";
+  final String _adminId = "qxekciTAKXMPzSi7Xy1A7CXvLXd2";
 
   int _selectedIndex = 2;
 
@@ -34,9 +34,6 @@ class _MessageScreenState extends State<MessageScreen> {
       print('User is not logged in or message is empty');
       return;
     }
-
-    print('Current User ID: $currentUserId');
-    print('Current Admin ID: $_adminId');
 
     final newMessage = {
       'senderId': currentUserId,
