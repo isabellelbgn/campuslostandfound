@@ -25,7 +25,12 @@
 ### Item Details
 - View detailed information about a selected item.
 
-  <img width="200" alt="item-details-screen" src="https://github.com/user-attachments/assets/7a6c8e18-45ba-4c9d-b7ab-b6a778d280cd">
+  <img width="200" alt="item-details-screen" src="https://github.com/user-attachments/assets/87909b4e-4c13-4fbc-8d87-468d2515e4ca">
+
+## Admin Support
+- Provide admin support through a chat portal.
+
+  <img width="200" alt="chat-screen" src="https://github.com/user-attachments/assets/8e23c7c1-f98e-470e-84e0-26bbeaaeed57">
 
 ## How to Use
 1. Clone the repository:
