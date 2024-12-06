@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="com.campuslostandfound.app">
     <application
-        android:label="campuslostandfound"
+        android:label="FoundIt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
