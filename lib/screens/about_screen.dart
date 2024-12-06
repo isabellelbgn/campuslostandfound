@@ -137,7 +137,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                             ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                              "A backend developer who loves building efficient systems, solving problems, and enjoying good coffee.",
                                               style: TextStyle(
                                                 color: Color(0xFF002EB0),
                                                 fontSize: 10,
@@ -224,7 +224,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                           ),
                                           const SizedBox(height: 10),
                                           const Text(
-                                            "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                            "A backend developer who loves building efficient systems, solving problems, and enjoying good coffee.",
                                             style: TextStyle(
                                               color: Color(0xFF002EB0),
                                               fontSize: 10,
@@ -311,13 +311,13 @@ class _AboutScreenState extends State<AboutScreen> {
                                             ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                              "A passionate frontend and UI/UX designer who loves blending creativity with technology and relaxing with great movies.",
                                               style: TextStyle(
                                                 color: Color(0xFF002EB0),
                                                 fontSize: 10,
                                               ),
                                               textAlign: TextAlign.start,
-                                              maxLines: 3,
+                                              maxLines: 4,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             const SizedBox(height: 10),
@@ -326,7 +326,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                                 InkWell(
                                                   onTap: () {
                                                     _launchURL(
-                                                        'https://www.linkedin.com/in/isabellelabuguen/');
+                                                        'https://www.linkedin.com/in/martina-aaron-angeles/');
                                                   },
                                                   child: const FaIcon(
                                                     FontAwesomeIcons.linkedin,
@@ -338,7 +338,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                                 InkWell(
                                                   onTap: () {
                                                     _launchURL(
-                                                        'https://www.facebook.com/BelleLabuguen');
+                                                        'https://www.facebook.com/martinaangeless/');
                                                   },
                                                   child: const FaIcon(
                                                     FontAwesomeIcons
@@ -351,7 +351,7 @@ class _AboutScreenState extends State<AboutScreen> {
                                                 InkWell(
                                                   onTap: () {
                                                     _launchURL(
-                                                        'https://github.com/isabellelbgn');
+                                                        'https://github.com/martinaangeles');
                                                   },
                                                   child: const FaIcon(
                                                     FontAwesomeIcons.github,
@@ -398,13 +398,13 @@ class _AboutScreenState extends State<AboutScreen> {
                                           ),
                                           const SizedBox(height: 10),
                                           const Text(
-                                            "Description..... Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                            "A passionate frontend and UI/UX designer who loves blending creativity with technology and relaxing with great movies.",
                                             style: TextStyle(
                                               color: Color(0xFF002EB0),
                                               fontSize: 10,
                                             ),
                                             textAlign: TextAlign.start,
-                                            maxLines: 3,
+                                            maxLines: 4,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           const SizedBox(height: 10),
